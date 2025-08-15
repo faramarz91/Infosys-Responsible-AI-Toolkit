@@ -116,4 +116,4 @@ git push origin <new-branch-name>
 
 ## 📜 License
 
-By contributing to this project, you agree that your contributions will be licensed under the project’s [LICENSE](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/Release-2.1.0/LICENSE.md) file.
+By contributing to this project, you agree that your contributions will be licensed under the project’s [LICENSE](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/master/LICENSE.md) file.
