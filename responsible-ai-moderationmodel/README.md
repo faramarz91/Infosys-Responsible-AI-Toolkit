@@ -22,14 +22,14 @@ To run the application, first we need to install Python and the necessary packag
 
 1. Install Python (version 3.11.x) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
 
-2. Clone the repository : responsible-ai-mm-flask:
+2. Clone the repository : Infosys-Responsible-AI-Toolkit:
     ```sh
     git clone <repository-url>
     ```
 
-3. Navigate to the `responsible-ai-mm-flask` directory:
+3. Navigate to the `responsible-ai-moderationmodel` directory:
     ```sh
-    cd responsible-ai-mm-flask
+    cd responsible-ai-moderationmodel
     ```
 
 4. Create a virtual environment:
