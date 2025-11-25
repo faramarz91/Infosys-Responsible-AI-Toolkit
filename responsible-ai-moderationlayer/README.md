@@ -8,6 +8,7 @@
 - [Installation](#installation)
 - [Set Configuration Variables](#set-configuration-variables)
 - [Running the Application](#running-the-application)
+- [Docker Image](#Docker-image)
 - [License](#license)
 - [Contact](#contact)
  
@@ -694,6 +695,9 @@ which can be added as below :
      AWS_CLAUDE_V3_5 for AWS Bedrock Claude model
      Gemini-Pro for Gemini 2.5 Pro model
      Gemini-Flash for Gemini 2.5 Flash model
+
+## Docker Image
+The Docker image for the Moderationlayer module has been published on Docker Hub. You can access it here: [ModerationLayer image](https://hub.docker.com/repository/docker/infosysresponsibleaitoolkit/responsible-ai-moderationlayer)
   
 ## License
 The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.

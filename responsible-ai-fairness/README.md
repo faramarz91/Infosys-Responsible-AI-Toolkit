@@ -177,7 +177,7 @@ GEMINI_PRO_MODEL_NAME                | "${gemini_pro_model_name}"            |  
 | VERIFY_SSL | "${verify_ssl}" | Options: True, False | Yes |
 
 ## Features
-For more details refer our [API Documentation](responsible-ai-fairness\docs\FAIRNESS_API_DOCUMENTATION.pdf)
+For more details refer our [API Documentation](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/master/responsible-ai-fairness/responsible-ai-fairness/docs/FAIRNESS_API_DOCUMENTATION.pdf)
 
 | Model Type                      | Phase         | Function  | Description                                                                 |
 |---------------------------------|---------------|-----------|-----------------------------------------------------------------------------|

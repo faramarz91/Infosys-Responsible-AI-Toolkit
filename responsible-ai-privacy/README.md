@@ -9,6 +9,7 @@
 - [Set Configuration Variables](#set-configuration-variables)
 - [Running the Application](#running-the-application)
 - [Features](#features)
+- [Docker Image](#Docker-image)
 - [License](#license)
 - [Contact](#contact)
 
@@ -288,6 +289,9 @@ Once we have completed all the aforementioned steps, we can start the service.
     <td>Anonymize PII entities in video.</td>
   </tr>
 </table>
+
+## Docker Image
+The Docker image for the Privacy module has been published on Docker Hub. You can access it here: [Privacy image](https://hub.docker.com/repository/docker/infosysresponsibleaitoolkit/responsible-ai-privacy)
 
 ## License
 
