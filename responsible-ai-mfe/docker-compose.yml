@@ -1,0 +1,26 @@
+services:
+  mfe:
+    container_name: responsible-ai-mfe
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "30055:30055"
+    environment:
+      HOMEFILEPATHURL: http://localhost:30055
+      DICOMFILEPATHURL: http://localhost:30055
+      MASTERURL: http://localhost:30016/api/v1/rai/admin/ConfigApi
+      ENABLESEARCH: "true"
+      ENABLEINTERPRET: "true"
+      AUTHORITY_API: http://localhost:5000/v1/rai/backend/pageauthoritynew
+      WEBSOCKET_URL: ws://localhost:5001
+      AUTH_TOKEN: Bearer None
+      NG_SERVE_CMD: ng serve --host 0.0.0.0 --port 30055 --disable-host-check
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - .:/app
+      - mfe_node_modules:/app/node_modules
+
+volumes:
+  mfe_node_modules:

@@ -18,6 +18,7 @@ description: Project management services helps to create Usecase and projects .
 
 """
 from typing import List
+import json
 
 
 import uvicorn
@@ -42,8 +43,25 @@ log=CustomLogger()
 
 ## reading metadata configuration from config file
 
-allow_origins = os.getenv("allow_origin")
-allow_methods = os.getenv("allow_method")
+def parse_env_list(value: str, default: List[str]) -> List[str]:
+    if not value:
+        return default
+
+    try:
+        parsed = json.loads(value)
+        if isinstance(parsed, list):
+            return [str(item) for item in parsed]
+    except json.JSONDecodeError:
+        pass
+
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+allow_origins = parse_env_list(os.getenv("allow_origin"), ["*"])
+allow_methods = parse_env_list(
+    os.getenv("allow_method"),
+    ["GET", "POST", "OPTIONS", "HEAD", "DELETE", "PATCH", "UPDATE"],
+)
 app = FastAPI(**read_config_yaml('../config/metadata.yaml'))
 
 """
@@ -62,6 +80,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=allow_origins,
     allow_credentials=True,
+    allow_methods=allow_methods,
     allow_headers=["Content-Type", "Authorization", "X-Pingsession"],  # specify allowed headers
     max_age=31536000,  # set max age for CORS cache
     expose_headers=["Vary"]
@@ -77,7 +96,7 @@ app.add_middleware(XSSProtectionMiddleware)
 @app.middleware("http")
 async def add_allowed_methods(request: Request, call_next):
     response = await call_next(request)
-    response.headers["Access-Control-Allow-Methods"] = allow_methods
+    response.headers["Access-Control-Allow-Methods"] = ", ".join(allow_methods)
     return response
 class DisallowNullOriginMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
@@ -169,6 +188,5 @@ app.include_router(modRouter, prefix='/api/v1', tags=["RaiCustomeTemplateAdmin"]
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=30016)
-
 
 

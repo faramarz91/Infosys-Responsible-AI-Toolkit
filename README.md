@@ -1,6 +1,20 @@
 # **Infosys-Responsible-AI-Toolkit**
 The Infosys Responsible AI toolkit provides a set of APIs to integrate safety,security, privacy, explainability, fairness, and hallucination detection into AI solutions, ensuring trustworthiness and transparency. 
 
+### Docker Compose
+There is now a root-level Docker Compose flow for running the main toolkit services from the repository root.
+
+Common commands:
+
+```bash
+docker compose up -d ai-explain fairness
+docker compose --profile ui up -d
+docker compose --profile explain --profile fairness up -d
+docker compose down
+```
+
+The lightest supported path is to start `ai-explain` and `fairness`, which will also bring up their shared dependencies such as `mongo`, `model-detail`, and `reporting-tool`.
+
 ### Repositories and Installation Instructions
 The following table lists the modules of the Infosys Responsible AI Toolkit.  Installation instructions for each module can be found in the corresponding README file within the module's directory.
 

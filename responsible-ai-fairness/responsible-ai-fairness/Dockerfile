@@ -1,12 +1,21 @@
-FROM python:3.9.13
-ENV DEBIAN_FRONTEND=noninteractive
+FROM python:3.9.13-slim
 
-ENV ACCESS_KEY= 
-ENV SECRET_KEY= 
-	
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    ACCESS_KEY= \
+    SECRET_KEY=
+
+WORKDIR /app
+
+COPY requirements/requirements.txt requirements/requirements.txt
+
+RUN pip install --no-cache-dir -r requirements/requirements.txt
+
 COPY . .
 
-RUN pip install -r requirements/requirement.txt 
-WORKDIR src
+WORKDIR /app/src
 
-CMD ["sh", "-c", "python main_api.py"]
+EXPOSE 8000
+
+CMD ["python", "main_api.py"]

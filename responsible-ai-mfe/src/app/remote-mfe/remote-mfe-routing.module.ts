@@ -49,9 +49,8 @@ export const remoteRoutes: Route[] = [
       { path: 'bulk-processing', 
         loadChildren: () => import('../bulk-processing/bulk-processing.module').then(m => m.BulkProcessingModule)
       },
-      { path: '',   redirectTo: '/responsible-ui/workbench', pathMatch: 'full' },
-      // ====== add routes for wild card ======
-      // {path: '**', redirectTo: ''}
+      { path: '', redirectTo: 'workbench', pathMatch: 'full' },
+      { path: '**', redirectTo: 'workbench' }
     ]
   }
 ];

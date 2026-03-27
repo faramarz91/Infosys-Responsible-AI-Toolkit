@@ -1,25 +1,14 @@
-FROM infyartifactory.jfrog.io/responsibleai-mms-kubeflow/node:v20.11.1
+FROM node:20.11.1-bookworm-slim
 
-RUN apt-get update && apt-get install -y nodejs npm
-
-RUN node -v
-RUN npm -v
- 
-
-RUN groupadd -r myuser && useradd -r -g myuser myuser
- 
-
-RUN mkdir -p /app
 WORKDIR /app
- 
 
-COPY package.json /app
-COPY .npmrc /app
- 
+COPY package*.json ./
 
 RUN npm install --legacy-peer-deps
 
-COPY . /app
+COPY . .
+
+RUN useradd --create-home myuser && chown -R myuser:myuser /app
 
 EXPOSE 30010
 

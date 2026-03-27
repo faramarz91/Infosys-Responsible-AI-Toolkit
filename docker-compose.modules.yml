@@ -1,0 +1,138 @@
+name: responsible-ai-toolkit
+
+services:
+  mongo:
+    container_name: responsible-ai-shared-mongo
+    image: mongo:7.0
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: RAI_Admin_DB
+    ports:
+      - "27017:27017"
+    volumes:
+      - shared_mongo_data:/data/db
+      - ./responsible-ai-admin/Initial DB setup:/seed:ro
+      - ./responsible-ai-admin/responsible-ai-admin/mongo-init/import-data.sh:/docker-entrypoint-initdb.d/import-data.sh:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  admin:
+    container_name: responsible-ai-admin
+    profiles: ["ui"]
+    build:
+      context: ./responsible-ai-admin/responsible-ai-admin
+      dockerfile: Dockerfile
+    depends_on:
+      mongo:
+        condition: service_healthy
+    working_dir: /app/src
+    command: ["python3", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "30016", "--reload"]
+    environment:
+      DB_TYPE: mongo
+      DB_NAME: RAI_Admin_DB
+      MONGO_PATH: mongodb://mongo:27017/
+      allow_origin: '["*"]'
+      allow_method: '["GET","POST","OPTIONS","HEAD","DELETE","PATCH","UPDATE"]'
+    volumes:
+      - ./responsible-ai-admin/responsible-ai-admin:/app
+    ports:
+      - "30016:30016"
+
+  backend:
+    container_name: responsible-ai-backend
+    profiles: ["ui"]
+    build:
+      context: ./responsible-ai-backend/backend-rai
+      dockerfile: Dockerfile
+    depends_on:
+      mongo:
+        condition: service_healthy
+    working_dir: /app/src
+    command: ["python3", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "30019", "--reload"]
+    environment:
+      DB_TYPE: mongo
+      DB_NAME: raibackend
+      MONGO_PATH: mongodb://mongo:27017/
+      SECRET_KEY: your_secret_key
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+      TOKEN_URL: /token
+      TELEMETRY_FLAG: "False"
+      allow_origin: '["*"]'
+      allow_methods: '["GET","POST","OPTIONS","HEAD","DELETE","PATCH","UPDATE"]'
+    volumes:
+      - ./responsible-ai-backend/backend-rai:/app
+    ports:
+      - "30019:30019"
+
+  mfe:
+    container_name: responsible-ai-mfe
+    profiles: ["ui"]
+    build:
+      context: ./responsible-ai-mfe
+      dockerfile: Dockerfile
+    depends_on:
+      admin:
+        condition: service_started
+      backend:
+        condition: service_started
+    environment:
+      HOMEFILEPATHURL: http://localhost:30055
+      DICOMFILEPATHURL: http://localhost:30055
+      MASTERURL: http://localhost:30016/api/v1/rai/admin/ConfigApi
+      ENABLESEARCH: "true"
+      ENABLEINTERPRET: "true"
+      AUTHORITY_API: http://localhost:30019/v1/rai/backend/pageauthoritynew
+      WEBSOCKET_URL: ws://localhost:5001
+      AUTH_TOKEN: Bearer None
+      NG_SERVE_CMD: ng serve --host 0.0.0.0 --port 30055 --disable-host-check
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - ./responsible-ai-mfe:/app
+      - mfe_node_modules:/app/node_modules
+    ports:
+      - "30055:30055"
+
+  shell:
+    container_name: responsible-ai-shell
+    profiles: ["ui"]
+    build:
+      context: ./responsible-ai-shell
+      dockerfile: Dockerfile
+    depends_on:
+      admin:
+        condition: service_started
+      backend:
+        condition: service_started
+      mfe:
+        condition: service_started
+    environment:
+      SERVER_API_URL: http://localhost:30019/v1/rai/backend
+      FRONTEND_URL: http://localhost:30010
+      ADMIN_URL: http://localhost:30016
+      LOGIN_USER_NAME: admin
+      LOGIN_USER_CRED: admin
+      MFE_URL: http://localhost:30055
+      AZURE_CLIENTID: ""
+      AZURE_AUTHORITY: ""
+      AZURE_REDIRECTURI: ""
+      SSO_BASED_LOGIN: "false"
+      TELEMETRY_DASHBOARD: ""
+      NG_SERVE_CMD: ng serve --host 0.0.0.0 --port 30010 --disable-host-check
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - ./responsible-ai-shell:/app
+      - shell_node_modules:/app/node_modules
+    ports:
+      - "30010:30010"
+
+volumes:
+  shared_mongo_data:
+  mfe_node_modules:
+  # shell_node_modules:

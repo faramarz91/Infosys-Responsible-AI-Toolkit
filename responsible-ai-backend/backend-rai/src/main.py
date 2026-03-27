@@ -25,6 +25,7 @@ from rai_backend.exception import exception
 # from aicloudlibs.utils import global_exception_handler
 from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 import os
+import json
 
 import uvicorn
 from rai_backend.router.router import router
@@ -37,14 +38,31 @@ app = FastAPI()
 metadata_config = read_config_yaml('../config/metadata.yaml')
 app = FastAPI(**metadata_config)
 
-allow_origins = os.getenv("allow_origin")
-allow_methods = os.getenv("allow_methods")
+def parse_env_list(value, default):
+    if not value:
+        return default
+
+    try:
+        parsed = json.loads(value)
+        if isinstance(parsed, list):
+            return [str(item) for item in parsed]
+    except json.JSONDecodeError:
+        pass
+
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+allow_origins = parse_env_list(os.getenv("allow_origin"), ["*"])
+allow_methods = parse_env_list(
+    os.getenv("allow_methods"),
+    ["GET", "POST", "OPTIONS", "HEAD", "DELETE", "PATCH", "UPDATE"],
+)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allow_origins,
     allow_credentials=True,
-    allow_methods = allow_methods,
+    allow_methods=allow_methods,
     allow_headers=["Content-Type", "Authorization", "X-Pingsession"],  # specify allowed headers
     max_age=31536000,
     expose_headers=["Vary"]  
@@ -54,7 +72,7 @@ app.add_middleware(
 @app.middleware("http")
 async def add_allowed_methods(request: Request, call_next):
     response = await call_next(request)
-    response.headers["Access-Control-Allow-Methods"] = allow_methods
+    response.headers["Access-Control-Allow-Methods"] = ", ".join(allow_methods)
     return response
 
 

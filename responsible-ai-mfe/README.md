@@ -25,9 +25,10 @@ After installing Node & following above steps, you should be able to run the fol
 
 2.	Install Dependencies
         Navigate to the root folder of the project(e.g., D:\Infosys-Responsible-AI-Toolkit\responsible-ai-mfe) and run the following command to install all necessary dependencies:
-       ```
+
+       ```js
        npm install
-        ```
+       ```
 
     You will only need to run this command  also whenever dependencies change in [package.json] (package.json).
 

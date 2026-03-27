@@ -1,0 +1,29 @@
+services:
+  shell:
+    container_name: responsible-ai-shell
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SERVER_API_URL: http://localhost:30019/v1/rai/backend
+      FRONTEND_URL: http://localhost:30010
+      ADMIN_URL: http://localhost:30016
+      LOGIN_USER_NAME: admin
+      LOGIN_USER_CRED: admin
+      MFE_URL: http://localhost:30055
+      AZURE_CLIENTID: ""
+      AZURE_AUTHORITY: ""
+      AZURE_REDIRECTURI: ""
+      SSO_BASED_LOGIN: "false"
+      TELEMETRY_DASHBOARD: ""
+      NG_SERVE_CMD: ng serve --host 0.0.0.0 --port 30010 --disable-host-check
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - .:/app
+      - shell_node_modules:/app/node_modules
+    ports:
+      - "30010:30010"
+
+volumes:
+  shell_node_modules:

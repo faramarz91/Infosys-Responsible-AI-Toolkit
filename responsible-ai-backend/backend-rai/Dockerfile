@@ -1,12 +1,23 @@
-FROM python:3.9.13
- 
-ENV DEBIAN_FRONTEND=noninteractive
- 
-Copy . .
- 
-RUN pip3 install -r requirements/requirement.txt
-WORKDIR src
- 
-CMD ["sh", "-c", "python3 main.py"]
+FROM python:3.9.13-slim
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+COPY requirement/requirements.txt requirement/requirements.txt
+
+RUN pip3 install --no-cache-dir -r requirement/requirements.txt
+
+COPY . .
+
+RUN useradd --create-home myLowPrivilegeUser && chown -R myLowPrivilegeUser:myLowPrivilegeUser /app
+
+USER myLowPrivilegeUser
+
+WORKDIR /app/src
+
+CMD ["python3", "main.py"]
  
  
