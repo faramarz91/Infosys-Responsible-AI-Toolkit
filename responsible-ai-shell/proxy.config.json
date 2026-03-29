@@ -1,19 +1,19 @@
 {
 
     "/raiapicall/api/authenticate/": {
-        "target": "MFE_AUTHENTICATE",
+        "target": "http://mfe:30055/api/authenticate/",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
     },
     "/raiapicall/api/account/": {
-        "target": "MFE_ACCOUNT",
+        "target": "http://mfe:30055/api/account/",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
     },
     "/raiapicall/management/info/": {
-        "target": "MFE_MANIFEST",
+        "target": "http://mfe:30055/manifest.webapp",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true

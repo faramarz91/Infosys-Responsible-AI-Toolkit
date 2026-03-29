@@ -227,6 +227,7 @@ services:
       DB_NAME: rai_repository
       MONGO_PATH: mongodb://mongo:27017/
       allow_origin: '["*"]'
+      allow_methods: '["GET","POST","OPTIONS","HEAD","DELETE","PATCH","PUT"]'
     volumes:
       - ./responsible-ai-model-detail/workbench:/app
     ports:
@@ -251,6 +252,7 @@ services:
       DB_NAME: rai_repository
       MONGO_PATH: mongodb://mongo:27017/
       allow_origin: '["*"]'
+      allow_methods: '["GET","POST","OPTIONS","HEAD","DELETE","PATCH","PUT"]'
     volumes:
       - ./responsible-ai-reporting-tool/wrapper:/app
     ports:

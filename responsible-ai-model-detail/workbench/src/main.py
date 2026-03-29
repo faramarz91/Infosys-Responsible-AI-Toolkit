@@ -15,6 +15,7 @@ description: Project management services helps to create Usecase and projects .
              This app handles the services for usecase module which perform CRUD operaions.
 """
 from typing import List
+import json
 
 import uvicorn
 import os
@@ -51,8 +52,34 @@ app = FastAPI(**read_config_yaml('../config/metadata.yaml'))
     allow_headers - A list of HTTP request headers that should be supported for cross-origin requests. 
                     using ['*'] to allow all headers
 """
-allow_origins = os.getenv("allow_origin")
-allow_methods = os.getenv("allow_methods")
+def parse_cors_env_list(raw_value: str, default_values: List[str]) -> List[str]:
+    if not raw_value:
+        return default_values
+
+    try:
+        parsed_value = json.loads(raw_value)
+        if isinstance(parsed_value, list):
+            return parsed_value
+        if isinstance(parsed_value, str) and parsed_value.strip():
+            return [parsed_value.strip()]
+    except (json.JSONDecodeError, TypeError):
+        pass
+
+    if isinstance(raw_value, str):
+        if raw_value.strip() == '*':
+            return ['*']
+        if ',' in raw_value:
+            return [value.strip() for value in raw_value.split(',') if value.strip()]
+        return [raw_value.strip()]
+
+    return default_values
+
+
+allow_origins = parse_cors_env_list(os.getenv("allow_origin"), ['*'])
+allow_methods = parse_cors_env_list(
+    os.getenv("allow_methods"),
+    ["GET", "POST", "OPTIONS", "HEAD", "DELETE", "PATCH", "PUT"]
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -67,7 +94,7 @@ app.add_middleware(
 @app.middleware("http")
 async def add_allowed_methods(request: Request, call_next):
     response = await call_next(request)
-    response.headers["Access-Control-Allow-Methods"] = allow_methods
+    response.headers["Access-Control-Allow-Methods"] = ", ".join(allow_methods)
     return response
 
 class XSSProtectionMiddleware(BaseHTTPMiddleware):
@@ -182,5 +209,4 @@ if __name__ == "__main__":
     Utility.loadmodelattributes()
     Utility.loaddataattributes()
     uvicorn.run("main:app", host="0.0.0.0", port=80)
-
 

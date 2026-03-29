@@ -9,8 +9,18 @@ ENV DEBIAN_FRONTEND=noninteractive \
 WORKDIR /app
 
 COPY requirements/requirements.txt requirements/requirements.txt
+COPY lib/ lib/
 
-RUN pip install --no-cache-dir -r requirements/requirements.txt
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app/requirements
+
+RUN python3 -m pip install --upgrade pip \
+    && pip install --no-cache-dir --retries 10 --timeout 180 -r requirements.txt
+
+WORKDIR /app
 
 COPY . .
 
