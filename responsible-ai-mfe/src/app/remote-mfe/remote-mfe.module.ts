@@ -12,7 +12,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { StructuredTextModalComponent } from '../structured-text-modal/structured-text-modal.component';
 import { HomeParentComponent } from '../home-parent/home-parent.component';
-import { RecognizersModalAComponent } from '../Admin-Configuration/recognizers/recognizers-modal-a/recognizers-modal-a.component';
 import { ImageReportChartComponent } from '../image-report-chart/image-report-chart.component';
 import { AddDataModelComponent } from '../add-data-model/add-data-model.component';
 import { AddModelComponent } from '../add-model/add-model.component';
@@ -42,13 +41,13 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { RemoteMfeRoutingModule } from './remote-mfe-routing.module';
+import { MvpHomeComponent } from '../mvp-home/mvp-home.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     StructuredTextModalComponent,
     HomeParentComponent,
-    RecognizersModalAComponent,
     ImageReportChartComponent,
     AddDataModelComponent,
     AddModelComponent,
@@ -67,6 +66,7 @@ import { RemoteMfeRoutingModule } from './remote-mfe-routing.module';
     ImageDialogComponent,
     FairnessSideModalComponent,
     LegalAgentComponent,
+    MvpHomeComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,522 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+:host {
+  display: block;
+  color-scheme: light;
+  font-family: 'Avenir Next', 'Segoe UI', 'Noto Sans', sans-serif;
+}
+
+:host ::ng-deep body {
+  background: #eef3f8;
+}
+
+.mvp-home-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 20px 40px;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(13, 115, 176, 0.12), transparent 34%),
+    radial-gradient(circle at 90% 0%, rgba(255, 170, 84, 0.14), transparent 31%),
+    linear-gradient(160deg, #edf3f8 0%, #f8fbfe 52%, #f6f9f4 100%) !important;
+  color: #1b3348 !important;
+}
+
+.mvp-home-card {
+  width: min(100%, 760px);
+  padding: 24px 24px 22px;
+  border-radius: 20px;
+  border: 1px solid #d6e2ef;
+  background: rgba(255, 255, 255, 0.97) !important;
+  box-shadow: 0 20px 44px rgba(28, 56, 84, 0.14);
+  color: #1b3348;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #6788a6;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 1.56rem;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+  color: #143751;
+}
+
+.section-label {
+  margin: 0 0 8px;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  color: #355a74;
+  font-weight: 600;
+}
+
+.dataset-select {
+  width: 100%;
+  margin-bottom: 18px;
+  border: 1px solid #bad0e5;
+  border-radius: 11px;
+  padding: 9px 12px;
+  font-size: 0.86rem;
+  color: #1a344a;
+  background-color: #fbfdff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dataset-select:focus {
+  outline: none;
+  border-color: #1e7acb;
+  box-shadow: 0 0 0 3px rgba(30, 122, 203, 0.18);
+}
+
+.evaluation-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.evaluation-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  padding: 8px 10px;
+  border-radius: 11px;
+  border: 1px solid #d4e3f2;
+  background: #f8fbff;
+  color: #21425c;
+}
+
+.evaluation-item input[type='checkbox'] {
+  width: 15px;
+  height: 15px;
+  accent-color: #1167ad;
+}
+
+.setup-panel {
+  margin: 10px 0 16px;
+  border: 1px solid #d8e6f4;
+  border-radius: 12px;
+  padding: 11px;
+  background: linear-gradient(180deg, #fafdff 0%, #f6fafe 100%);
+}
+
+.setup-panel h3 {
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+  color: #1f4766;
+  font-weight: 700;
+}
+
+.setup-panel label {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 8px;
+  font-size: 0.78rem;
+  color: #42627a;
+}
+
+.hint-line {
+  margin: 6px 0 0;
+  font-size: 0.72rem;
+  color: #597287;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.form-grid.compact {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.advanced-panel {
+  margin-top: 10px;
+  border-top: 1px dashed #cedaea;
+  padding-top: 8px;
+}
+
+.advanced-panel summary {
+  cursor: pointer;
+  font-size: 0.76rem;
+  color: #365b78;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.inline-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.8rem;
+}
+
+.inline-toggle input[type='checkbox'] {
+  width: 14px;
+  height: 14px;
+  accent-color: #1167ad;
+}
+
+.compact-input {
+  width: 100%;
+  border: 1px solid #b9cde0;
+  border-radius: 9px;
+  padding: 7px 9px;
+  font-size: 0.8rem;
+  color: #1e3449;
+  background-color: #ffffff;
+}
+
+.compact-input:focus {
+  outline: none;
+  border-color: #1e7acb;
+  box-shadow: 0 0 0 3px rgba(30, 122, 203, 0.16);
+}
+
+.linked-model {
+  margin: 0 0 14px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #516a80;
+  word-break: break-word;
+}
+
+.evaluate-button {
+  min-width: 180px;
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 16px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  background: linear-gradient(140deg, #0d568c 0%, #1075bf 100%);
+  box-shadow: 0 12px 28px rgba(14, 90, 145, 0.24);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.evaluate-button:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 32px rgba(13, 85, 139, 0.29);
+}
+
+.evaluate-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+  box-shadow: none;
+}
+
+.status-stack {
+  margin-top: 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.status-row {
+  margin: 0;
+  font-size: 0.8rem;
+  padding: 9px 11px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  line-height: 1.4;
+}
+
+.status-row.in-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ecf6ff;
+  color: #0f527f;
+  border-color: #c4def5;
+}
+
+.status-row.success {
+  background: #eaf9ef;
+  color: #1e6f42;
+  border-color: #bbebcc;
+}
+
+.status-row.report {
+  background: #f2f7ff;
+  color: #2a5c88;
+  border-color: #cde0f5;
+}
+
+.status-row.error {
+  background: #fef0f0;
+  color: #9e2d2d;
+  border-color: #f3cbcb;
+}
+
+.dot-spinner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #1182d7;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+}
+
+.report-container {
+  margin-top: 22px;
+  border-top: 1px solid #dbe5f1;
+  padding-top: 20px;
+}
+
+.report-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.download-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.download-select {
+  border: 1px solid #b7cde2;
+  border-radius: 8px;
+  padding: 7px 9px;
+  font-size: 0.79rem;
+  color: #21445f;
+  background: #f8fbff;
+}
+
+.report-header h2 {
+  margin: 0;
+  font-size: 0.98rem;
+  color: #173851;
+}
+
+.download-button {
+  border: 1px solid #b7cde2;
+  border-radius: 9px;
+  background: #f7fbff;
+  color: #1f557e;
+  padding: 7px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.download-button:hover:not(:disabled) {
+  background: #eaf4ff;
+  border-color: #9ebfe0;
+}
+
+.download-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.method-card {
+  padding: 12px 12px 10px;
+  border: 1px solid #d4e1ee;
+  border-radius: 13px;
+  background: #fbfdff;
+  margin-bottom: 12px;
+}
+
+.method-card h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #173c59;
+}
+
+.method-description {
+  margin: 6px 0 10px;
+  font-size: 0.81rem;
+  color: #547089;
+}
+
+.row-card {
+  border-radius: 11px;
+  border: 1px solid #dfebf7;
+  background: #ffffff;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.row-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.row-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #2a4a63;
+}
+
+.prediction-chip {
+  font-size: 0.74rem;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: #edf5ff;
+  color: #1f5077;
+}
+
+.row-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.data-panel h4 {
+  margin: 0 0 8px;
+  font-size: 0.79rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #4d6a81;
+}
+
+.feature-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.feature-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px dashed #e5edf5;
+  padding-bottom: 4px;
+}
+
+.feature-name {
+  font-size: 0.78rem;
+  color: #3f617d;
+}
+
+.feature-value {
+  font-size: 0.78rem;
+  color: #162f45;
+  font-weight: 600;
+}
+
+.importance-row {
+  display: grid;
+  grid-template-columns: minmax(90px, 1fr) minmax(80px, 1.6fr) auto;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+
+.importance-name {
+  font-size: 0.76rem;
+  color: #3f617d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.importance-bar-track {
+  height: 8px;
+  border-radius: 999px;
+  background: #e8f1fb;
+  overflow: hidden;
+}
+
+.importance-bar {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #1196b3 0%, #0f6dad 100%);
+}
+
+.importance-score {
+  font-size: 0.75rem;
+  color: #204867;
+  font-family: Consolas, 'SFMono-Regular', Monaco, Menlo, monospace;
+}
+
+.empty-message {
+  margin: 0;
+  font-size: 0.77rem;
+  color: #6b8396;
+}
+
+@media (max-width: 760px) {
+  .mvp-home-page {
+    padding: 28px 12px 42px;
+  }
+
+  .mvp-home-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  h1 {
+    font-size: 1.42rem;
+  }
+
+  .evaluate-button {
+    width: 100%;
+  }
+
+  .evaluation-list {
+    grid-template-columns: 1fr;
+  }
+
+  .row-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .download-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .download-select {
+    width: 100%;
+    max-width: 200px;
+  }
+}

@@ -8,9 +8,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Route, RouterModule } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
+import { MvpHomeComponent } from '../mvp-home/mvp-home.component';
 import { SharedModule } from '../shared/shared.module';
 
 export const remoteRoutes: Route[] = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: MvpHomeComponent
+  },
   { path: '', component: HomeComponent,
     children: [
       { path: 'workbench', 

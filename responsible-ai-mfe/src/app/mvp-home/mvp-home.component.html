@@ -1,0 +1,300 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<div class="mvp-home-page">
+  <section class="mvp-home-card">
+    <p class="eyebrow">MVP Evaluation</p>
+    <h1>Trust AI</h1>
+
+    <label class="section-label" for="dataset-select">Please select your dataset</label>
+    <select
+      id="dataset-select"
+      class="dataset-select"
+      [(ngModel)]="selectedDataset"
+      (ngModelChange)="onDatasetChange($event)"
+    >
+      <option value="" disabled>Select dataset</option>
+      <option *ngFor="let dataset of datasetOptions" [value]="dataset.label">
+        {{ dataset.label }}
+      </option>
+    </select>
+
+    <p class="section-label">How you want to evaluate your model?</p>
+    <div class="evaluation-list" role="group" aria-label="Evaluation types">
+      <label class="evaluation-item" *ngFor="let evaluationType of evaluationOptions">
+        <input
+          type="checkbox"
+          [checked]="selectedEvaluations.includes(evaluationType)"
+          (change)="onEvaluationToggle(evaluationType, $any($event.target).checked)"
+        />
+        <span>{{ evaluationType }}</span>
+      </label>
+    </div>
+
+    <section class="setup-panel" *ngIf="isExplainabilitySelected">
+      <h3>Explainability Setup</h3>
+      <label class="inline-toggle">
+        <input type="checkbox" [(ngModel)]="showExplainPreview" />
+        <span>Show in-page explanation preview</span>
+      </label>
+      <div *ngIf="showExplainPreview">
+        <label for="explain-sample-limit">LIME sample limit</label>
+        <input
+          id="explain-sample-limit"
+          class="compact-input"
+          type="number"
+          min="1"
+          max="25"
+          [(ngModel)]="explainSampleLimit"
+        />
+        <label class="inline-toggle">
+          <input type="checkbox" [(ngModel)]="includeGlobalKernelExplainer" />
+          <span>Include global kernel explainer (slower)</span>
+        </label>
+      </div>
+      <p class="hint-line">Default runs report only (faster and more stable).</p>
+    </section>
+
+    <section class="setup-panel" *ngIf="isFairnessSelected">
+      <h3>Fairness Setup</h3>
+      <div class="form-grid compact">
+        <label>
+          <span>Label</span>
+          <input class="compact-input" type="text" [(ngModel)]="fairnessLabel" />
+        </label>
+        <label>
+          <span>Favorable Outcome</span>
+          <input class="compact-input" type="text" [(ngModel)]="fairnessFavorableOutcome" />
+        </label>
+        <label class="full-width">
+          <span>Protected Attributes (comma separated)</span>
+          <input
+            class="compact-input"
+            type="text"
+            [(ngModel)]="fairnessProtectedAttributesInput"
+            placeholder="Example: CODE_GENDER"
+          />
+        </label>
+      </div>
+
+      <details class="advanced-panel">
+        <summary>Advanced fairness options</summary>
+        <div class="form-grid">
+        <label>
+          <span>Bias Type</span>
+          <select [(ngModel)]="fairnessBiasType" class="compact-input">
+            <option value="PRETRAIN">PRETRAIN</option>
+            <option value="POSTTRAIN">POSTTRAIN</option>
+          </select>
+        </label>
+        <label>
+          <span>Method Type</span>
+          <select [(ngModel)]="fairnessMethodType" class="compact-input">
+            <option value="Generic">Generic</option>
+            <option value="Decisive">Decisive</option>
+          </select>
+        </label>
+        <label>
+          <span>Task Type</span>
+          <select [(ngModel)]="fairnessTaskType" class="compact-input">
+            <option value="CLASSIFICATION">CLASSIFICATION</option>
+          </select>
+        </label>
+        <label>
+          <span>Label</span>
+          <input class="compact-input" type="text" [(ngModel)]="fairnessLabel" />
+        </label>
+        <label>
+          <span>Favorable Outcome</span>
+          <input class="compact-input" type="text" [(ngModel)]="fairnessFavorableOutcome" />
+        </label>
+        <label>
+          <span>Mitigation Type</span>
+          <select [(ngModel)]="fairnessMitigationType" class="compact-input">
+            <option value="AUDIT">AUDIT</option>
+            <option value="PREPROCESSING">PREPROCESSING</option>
+            <option value="INPROCESSING">INPROCESSING</option>
+          </select>
+        </label>
+        <label>
+          <span>kNN</span>
+          <input class="compact-input" type="number" min="1" [(ngModel)]="fairnessKnn" />
+        </label>
+        <label>
+          <span>Prediction Label</span>
+          <input class="compact-input" type="text" [(ngModel)]="fairnessPredLabel" />
+        </label>
+        <label>
+          <span>Favourable Label</span>
+          <input class="compact-input" type="text" [(ngModel)]="fairnessFavourableLabel" />
+        </label>
+        <label class="full-width">
+          <span>Protected Attributes (comma separated)</span>
+          <input
+            class="compact-input"
+            type="text"
+            [(ngModel)]="fairnessProtectedAttributesInput"
+            placeholder="Example: CODE_GENDER,NAME_CONTRACT_TYPE"
+          />
+        </label>
+        <label class="full-width">
+          <span>Privileged Groups (group1;group2 format)</span>
+          <input
+            class="compact-input"
+            type="text"
+            [(ngModel)]="fairnessPrivilegedGroupsInput"
+            placeholder="Example: M;Cash loans"
+          />
+        </label>
+        <label class="full-width">
+          <span>Sensitive Features (comma separated)</span>
+          <input
+            class="compact-input"
+            type="text"
+            [(ngModel)]="fairnessSensitiveFeaturesInput"
+            placeholder="Example: CODE_GENDER"
+          />
+        </label>
+        <label class="full-width">
+          <span>Mitigation Technique</span>
+          <input
+            class="compact-input"
+            type="text"
+            [(ngModel)]="fairnessMitigationTechnique"
+            placeholder="Optional"
+          />
+        </label>
+        </div>
+      </details>
+    </section>
+
+    <section class="setup-panel" *ngIf="isRobustnessSelected">
+      <h3>Robustness Setup</h3>
+      <label class="full-width">
+        <span>Manual attacks (comma separated)</span>
+        <input
+          class="compact-input"
+          type="text"
+          [(ngModel)]="manualRobustnessAttacks"
+          placeholder="Optional: FGSM,PGD"
+        />
+      </label>
+      <details class="advanced-panel" *ngIf="robustnessAttackOptions.length > 0">
+        <summary>Detected attacks</summary>
+        <div class="evaluation-list">
+          <label class="evaluation-item" *ngFor="let attackName of robustnessAttackOptions">
+            <input
+              type="checkbox"
+              [checked]="selectedRobustnessAttacks.includes(attackName)"
+              (change)="onRobustnessAttackToggle(attackName, $any($event.target).checked)"
+            />
+            <span>{{ attackName }}</span>
+          </label>
+        </div>
+      </details>
+    </section>
+
+    <p class="linked-model" *ngIf="selectedModel">
+      Linked model: <strong>{{ selectedModel }}</strong>
+    </p>
+
+    <button type="button" class="evaluate-button" [disabled]="!canEvaluate" (click)="onEvaluateModel()">
+      {{ evaluationInProgress ? 'Running Evaluation...' : 'Evaluate Model' }}
+    </button>
+
+    <section class="status-stack" *ngIf="evaluationInProgress || evaluationError || evaluationSuccess || reportStatus">
+      <p class="status-row in-progress" *ngIf="evaluationInProgress">
+        <span class="dot-spinner" aria-hidden="true"></span>
+        {{ currentStepMessage || 'Evaluation in progress...' }}
+      </p>
+      <p class="status-row success" *ngIf="evaluationSuccess">{{ evaluationSuccess }}</p>
+      <p class="status-row report" *ngIf="reportStatus">{{ reportStatus }}</p>
+      <p class="status-row error" *ngIf="evaluationError">{{ evaluationError }}</p>
+    </section>
+
+    <section class="status-stack" *ngIf="tenetRunStatuses.length > 0">
+      <p
+        class="status-row"
+        *ngFor="let runStatus of tenetRunStatuses"
+        [class.success]="runStatus.state === 'success'"
+        [class.error]="runStatus.state === 'error'"
+        [class.in-progress]="runStatus.state === 'running'"
+      >
+        <strong>{{ runStatus.name }}:</strong> {{ runStatus.message }}
+        <span *ngIf="runStatus.batchId"> (Batch {{ runStatus.batchId }})</span>
+      </p>
+    </section>
+
+    <section class="report-container" *ngIf="canDownloadReport || explainabilityCards.length > 0">
+      <div class="report-header">
+        <h2>Evaluation Reports</h2>
+        <div class="download-actions">
+          <select
+            class="download-select"
+            [(ngModel)]="selectedDownloadTenet"
+            *ngIf="shouldShowDownloadTenetPicker"
+          >
+            <option *ngFor="let tenetName of availableDownloadTenets" [value]="tenetName">
+              {{ tenetName }}
+            </option>
+          </select>
+          <button
+            type="button"
+            class="download-button"
+            (click)="onDownloadReport()"
+            [disabled]="!canDownloadReport"
+            title="Download generated toolkit report"
+          >
+            Download Report
+          </button>
+        </div>
+      </div>
+
+      <article class="method-card" *ngFor="let card of explainabilityCards | slice : 0 : 2; let cardIndex = index">
+        <h3>{{ cardIndex + 1 }}. {{ card.methodName }}</h3>
+        <p class="method-description" *ngIf="card.methodDescription">{{ card.methodDescription }}</p>
+
+        <div class="row-card" *ngFor="let row of card.rows; let rowIndex = index">
+          <div class="row-meta">
+            <span class="row-title">Sample {{ rowIndex + 1 }}</span>
+            <span class="prediction-chip">Prediction: {{ row.prediction || '-' }}</span>
+          </div>
+
+          <div class="row-grid">
+            <section class="data-panel">
+              <h4>Input Snapshot</h4>
+              <ul class="feature-list">
+                <li *ngFor="let feature of row.inputRow | slice : 0 : 8">
+                  <span class="feature-name">{{ feature.featureName }}</span>
+                  <span class="feature-value" [title]="getFeatureValueTitle(feature.featureValue)">
+                    {{ formatFeatureValue(feature.featureValue) }}
+                  </span>
+                </li>
+              </ul>
+            </section>
+
+            <section class="data-panel">
+              <h4>Top Importance</h4>
+              <div class="importance-row" *ngFor="let item of getTopExplanations(row.explanation)">
+                <span class="importance-name">{{ item.featureName }}</span>
+                <div class="importance-bar-track">
+                  <span
+                    class="importance-bar"
+                    [style.width.%]="getBarWidth(item.importanceScore, getMaxAbsoluteImportance(row.explanation))"
+                  ></span>
+                </div>
+                <span class="importance-score">{{ formatImportance(item.importanceScore) }}</span>
+              </div>
+              <p class="empty-message" *ngIf="!row.explanation || row.explanation.length === 0">
+                No feature importance values were returned.
+              </p>
+            </section>
+          </div>
+        </div>
+      </article>
+    </section>
+  </section>
+</div>

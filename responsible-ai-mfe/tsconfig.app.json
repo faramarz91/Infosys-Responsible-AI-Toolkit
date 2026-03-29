@@ -13,6 +13,10 @@
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "src/app/mvp-home/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts"
   ]
 }
