@@ -5,13 +5,13 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 export const urlList = {
-  homefilepathurl: 'HOMEFILEPATHURL',
-  dicomfielpathurl: 'DICOMFILEPATHURL',
-  masterurl: 'MASTERURL',
-  enableInternetSearch: 'ENABLESEARCH',
-  enableInterpret: 'ENABLEINTERPRET',
-  authorityAPI: 'AUTHORITY_API',
-  websocketUrl: 'WEBSOCKET_URL',
-  authToken: 'AUTH_TOKEN'
+  homefilepathurl: 'http://localhost:30055',
+  dicomfielpathurl: 'http://localhost:30055',
+  masterurl: 'http://localhost:30016/api/v1/rai/admin/ConfigApi',
+  enableInternetSearch: "true",
+  enableInterpret: true,
+  authorityAPI: 'http://localhost:30019/v1/rai/backend/pageauthoritynew',
+  websocketUrl: 'ws://localhost:5001',
+  authToken: 'Bearer None'
 };
 

@@ -69,3 +69,4 @@ htmlcov/
 # Logs
 logs/
 *.log
+mvp-evaluation-artifacts/

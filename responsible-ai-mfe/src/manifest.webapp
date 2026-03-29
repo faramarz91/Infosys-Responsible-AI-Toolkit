@@ -1,6 +1,6 @@
 {
-  "name": "Responsible AI Shell",
-  "short_name": "RAI-Shell",
+  "name": "Responsible AI MFE",
+  "short_name": "RAI-MFE",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

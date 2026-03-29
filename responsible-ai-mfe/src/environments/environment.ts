@@ -8,8 +8,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-const homeFilePathUrl = 'HOMEFILEPATHURL'
-const DicomFielPathUrl = 'DICOMFILEPATHURL'
+const homeFilePathUrl = 'http://localhost:30055'
+const DicomFielPathUrl = 'http://localhost:30055'
 
 export const environment = {
   production: false,

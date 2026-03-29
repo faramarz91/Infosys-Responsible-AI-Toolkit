@@ -28,6 +28,8 @@ import { ChunkPipe } from 'src/app/chunk.pipe';
 import { FilterBySubcategoryPipe } from 'src/app/filter-by-subcategory.pipe';
 import { RouterModule, Routes } from '@angular/router';
 import { ApiConfigurationComponent } from '../api-configuration/api-configuration.component';
+import { RecognizersModalAComponent } from '../recognizers/recognizers-modal-a/recognizers-modal-a.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', component: ConfigurationParentComponent }
@@ -37,6 +39,7 @@ const routes: Routes = [
   declarations: [
     ConfigurationParentComponent,
     RecognizersComponent,
+    RecognizersModalAComponent,
     AccountMapingComponent,
     CustomTemplateComponent,
     ApplicationConfigurationsComponent,
@@ -58,6 +61,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
     NgxSkeletonLoaderModule,
     RouterModule.forChild(routes)
   ]

@@ -392,7 +392,8 @@ class InfosysRAI:
                         modelId = Model.create({"userId":userId,"modelName":Payload1.modelName,"modelVersion":v,"modelData":modelFileId,"modelEndPoint":"NA"}) 
                         # modelId = str(modelFileId)
                         model_file = FileStoreDb.fs.get(modelFileId)
-                        if Payload1["fileName"].split('.')[-1] == "pkl":
+                        model_file_extension = Payload1["fileName"].split('.')[-1].lower()
+                        if model_file_extension in ("pkl", "joblib", "pickle"):
                             model = joblib.load(BytesIO(model_file.read()))
                             algorithm = type(model).__name__
                             if algorithm =='Pipeline':
@@ -400,10 +401,10 @@ class InfosysRAI:
                             modelFramework = "Scikit-learn"
                             if 'arima' in algorithm.lower():
                                 modelFramework = "Statsmodels"
-                        elif Payload1["fileName"].split('.')[-1] == "zip":
+                        elif model_file_extension == "zip":
                             algorithm = "LLM" # need to be updated later
                             modelFramework = "Transformers"
-                        elif Payload1["fileName"].split('.')[-1] == "h5":
+                        elif model_file_extension == "h5":
                             # Write the data to a file
                             with open('model.h5', 'wb') as f:
                                 f.write(model_file.read())
@@ -411,6 +412,8 @@ class InfosysRAI:
                             os.remove('model.h5')
                             algorithm = type(model).__name__
                             modelFramework = "Keras"
+                        else:
+                            return "Unsupported model file type. Supported file types are pkl/joblib/pickle/h5/zip"
                         
                         Payload1["modelFramework"] = modelFramework
                         Payload1["algorithm"] = algorithm
@@ -480,7 +483,8 @@ class InfosysRAI:
                         )
                         print(type(responseGet.content),"MODEL BLOB TYPE")
                         # dataFileId = FileStoreDb
-                        if Payload1["fileName"].split('.')[-1] == "pkl":
+                        model_file_extension = Payload1["fileName"].split('.')[-1].lower()
+                        if model_file_extension in ("pkl", "joblib", "pickle"):
                             modelFileObj = responseGet.content
                             model = joblib.load(BytesIO(modelFileObj))
                             algorithm = type(model).__name__
@@ -489,10 +493,10 @@ class InfosysRAI:
                             modelFramework = "Scikit-learn"
                             if 'arima' in algorithm.lower():
                                 modelFramework = "Statsmodels"
-                        elif Payload1["fileName"].split('.')[-1] == "zip":
+                        elif model_file_extension == "zip":
                             algorithm = "LLM" # need to be updated later
                             modelFramework = "Transformers"
-                        elif Payload1["fileName"].split('.')[-1] == "h5":
+                        elif model_file_extension == "h5":
                             modelFileObj = responseGet.content
                             print(" IN MODEL H5")
                             # Write the data to a file
@@ -502,6 +506,8 @@ class InfosysRAI:
                             os.remove('model.h5')
                             algorithm = type(model).__name__
                             modelFramework = "Keras"
+                        else:
+                            return "Unsupported model file type. Supported file types are pkl/joblib/pickle/h5/zip"
                         Payload1["modelFramework"] = modelFramework
                         Payload1["algorithm"] = algorithm
                 commonTenetId = Tenet.findOne("Common")
